@@ -15,6 +15,6 @@ local speedPid is pidloop(0.01, 0.006, 0.006, -1, 1).
 set speedPid:setpoint to 0.
 
 until false {
-	set speedPid:setpoint to heightPid:update(time:seconds, ship:altitude).
+    set speedPid:setpoint to heightPid:update(time:seconds, ship:altitude).
     set throttle to throttle + speedPid:update(time:seconds, ship:verticalspeed).                   
 }

@@ -70,15 +70,15 @@ when kscRunway:distance > 200000 then {
     when kscRunway:distance < 180000 then upsideDown off.
     when kscRunway:distance < 134000 then {
         // Vesssel responds differently when lighter and in thicker atmosphere so tweak altitude PID loop constants
-    	set altitudePid to pidloop(0.5, 0.0002, 0.4, minVerticalSpeed, maxVerticalSpeed).
-		set altitudePid:setpoint to kscRunway:terrainheight + 10.
-		set airspeedPid:setpoint to 0.
+        set altitudePid to pidloop(0.5, 0.0002, 0.4, minVerticalSpeed, maxVerticalSpeed).
+        set altitudePid:setpoint to kscRunway:terrainheight + 10.
+        set airspeedPid:setpoint to 0.
     }
     when kscRunway:distance < 30000 then approachingKsc on.
     when kscRunway:distance < 6800 then {
         gear on.
-    	chutes on.
-    	brakes on.
+        chutes on.
+        brakes on.
     }
     when ship:groundspeed < 0.1 then stoppedAtKsc on.
 }
