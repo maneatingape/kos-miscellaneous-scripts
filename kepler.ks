@@ -25,8 +25,8 @@
 runoncepath("kos-miscellaneous-scripts/util.ks").
 
 // Parameters:
-// body: Celestial body e.g. Kerbin, Duna, Mun
-// t: Scalar time in seconds since epoch. e.g. time:seconds
+// body [CelestialBody] e.g. Kerbin, Duna, Mun
+// t [Scalar] Time in seconds since epoch. e.g. time:seconds
 global function orbitalStateVectors {
     parameter body, t.
 
