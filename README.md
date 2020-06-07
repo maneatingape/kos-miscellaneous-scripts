@@ -1,14 +1,14 @@
 # Description
 
-Collection of miscellaneous kOS scripts. Feel free to use the content of the scripts directly or as inspiration.
+Collection of miscellaneous [kOS](https://ksp-kos.github.io/KOS/) scripts for the game [Kerbal Space Program](https://www.kerbalspaceprogram.com/), covering diverse topics such as PID controllers, Orbital Mechanics and Vector Maths.
 
-These scripts were written for kOS version 1.2.0 or later but may work on earlier versions.
+Written by [ManEatingApe](https://forum.kerbalspaceprogram.com/index.php?/profile/151354-maneatingape/) and published under the permissive MIT license, so feel free to use the content of the scripts either directly or as inspiration. The scripts were written for kOS version 1.2.0 or later but may work on earlier versions.
 
 # Scripts
 
 ## [around_v1.ks](https://github.com/maneatingape/kos-miscellaneous-scripts/blob/master/around_v1.ks)
 
-Created for the [Around the World in 80 minutes](https://forum.kerbalspaceprogram.com/index.php?/topic/190374-around-the-world-in-80-minutes-original-done/) challenge. [Video of entry](https://vimeo.com/38275748)
+Created for the [Around the World in 80 minutes](https://forum.kerbalspaceprogram.com/index.php?/topic/190374-around-the-world-in-80-minutes-original-done/) challenge. [Video of entry](https://vimeo.com/382757485)
 
 This script flies a plane westwards at a constant height and speed, then lands it on the KSC runway. PID loops are used to control the plane's speed, direction and altitude.
 
