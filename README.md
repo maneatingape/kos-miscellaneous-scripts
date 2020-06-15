@@ -1,8 +1,8 @@
 # Description
 
-Collection of miscellaneous [kOS](https://ksp-kos.github.io/KOS/) scripts for the game [Kerbal Space Program](https://www.kerbalspaceprogram.com/), covering diverse topics such as PID controllers, Orbital Mechanics and Vector Maths.
+Collection of miscellaneous [kOS](https://ksp-kos.github.io/KOS/) scripts for the game [Kerbal Space Program](https://www.kerbalspaceprogram.com/), covering diverse topics such as [PID controllers](https://en.wikipedia.org/wiki/PID_controller), [orbital mechanics](https://en.wikipedia.org/wiki/Orbital_elements) and [vector math](https://en.wikipedia.org/wiki/Euclidean_vector).
 
-Written by [ManEatingApe](https://forum.kerbalspaceprogram.com/index.php?/profile/151354-maneatingape/) and published under the permissive MIT license, so feel free to use the content of the scripts either directly or as inspiration. The scripts were written for kOS version 1.2.0 or later but may work on earlier versions.
+Published under the permissive MIT license, so feel free to use the content of the scripts either directly or as inspiration. The scripts were written for kOS version 1.2.0 or later but may work on earlier versions.
 
 # Scripts
 
@@ -50,5 +50,5 @@ Key simplifying differences:
 
 Utility functions called by the `kepler.ks` script:
 * Regular trignometric functions that use radians instead of degrees along with hyperbolic variants.
-* Helper function to run iterative root finding algorithsm such as Newton's or Householder's methods.
+* Helper function to run iterative root finding algorithsm such as Newton's method.
 
