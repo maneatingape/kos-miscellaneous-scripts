@@ -25,6 +25,10 @@ Derived from the `around_v1` script, the key differences are:
 * Eliminated the yaw PID loop, instead using a simple heading
 * Some extra logic to drop empty stages
 
+## [compare.ks](https://github.com/maneatingape/kos-miscellaneous-scripts/blob/master/compare.ks)
+
+Script to compare the deltav efficiency of suicide burns versus constant altitude burns when landing on vacuum planets. Simulates landing trajectory using differential equations to estimate deltav requirements based on craft with different TWR.
+
 ## [compass.ks](https://github.com/maneatingape/kos-miscellaneous-scripts/blob/master/compass.ks)
 
 Functions that convert from raw ship vectors to compass values that match the in-game navball. Namespaced for convenience, to use simply call the lexicon members e.g. `compass:pitch()`
