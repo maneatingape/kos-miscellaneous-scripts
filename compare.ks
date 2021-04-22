@@ -33,7 +33,7 @@ local initial_apoapsis is planet:radius + initial_altitude.
 // Ship details
 local thrust is 60. // Kilonewtons
 local isp is 320. // Seconds
-local initial_mass is 7.5 / 6. // Tons
+local initial_mass is 2.5. // Tons
 local initial_twr is thrust / (initial_mass * surface_gravity).
 
 // Simulate constant altitude burn.
@@ -52,79 +52,79 @@ output("  Final TWR: " + round(result:final_twr, 2)).
 local count is 0.
 
 until count = 10 {
-	set result to simulate("suicide_burn").
+    set result to simulate("suicide_burn").
 
-	output("Suicide Burn Round " + (count + 1)).
-	output( "  Total time: " + round(result:time, 2)).
-	output("  Total Delta-V: " + round(result:deltav)).
-	output("  Radial Offset: " + round(result:offset)).
+    output("Suicide Burn Round " + (count + 1)).
+    output("  Total time: " + round(result:time, 2)).
+    output("  Total Delta-V: " + round(result:deltav)).
+    output("  Radial Offset: " + round(result:offset)).
 
-	set initial_periapsis to initial_periapsis + result:offset.
-	set count to count + 1.
+    set initial_periapsis to initial_periapsis + result:offset.
+    set count to count + 1.
 }
 
 local function simulate {
-	parameter strategy.
+    parameter strategy.
 
-	// Start landing burn exactly at periapsis. Radial velcocity is zero and
-	// tranverse velocity is given by vis-viva equation.
-	local current_mass is initial_mass.
-	local current_distance is initial_periapsis.
-	local current_radial is 0.
-	local current_transerve is sqrt(mu * (2 / initial_apoapsis - 2 / (initial_periapsis + initial_apoapsis))).
-	local delta_mass is -thrust / (isp * constant:g0).
+    // Start landing burn exactly at periapsis. Radial velcocity is zero and
+    // tranverse velocity is given by vis-viva equation.
+    local current_mass is initial_mass.
+    local current_distance is initial_periapsis.
+    local current_radial is 0.
+    local current_transerve is sqrt(mu * (2 / initial_apoapsis - 2 / (initial_periapsis + initial_apoapsis))).
+    local delta_mass is -thrust / (isp * constant:g0).
 
-	// Measure total time and deltav
-	local total_time is 0.
-	local total_deltav is 0.
-	local finished is false.
+    // Measure total time and deltav
+    local total_time is 0.
+    local total_deltav is 0.
+    local finished is false.
 
-	until finished {
-		// Decelerate at full throttle for entire burn.
-		local acceleration is thrust / current_mass.
-		// Take planet's rotation into account.
-		local relative_ground_speed is current_transerve - surface_ground_speed.
-		// If acceleration exceeds remaining velocity then we're done
-		set finished to acceleration > v(current_radial, relative_ground_speed, 0):mag.
+    until finished {
+        // Decelerate at full throttle for entire burn.
+        local acceleration is thrust / current_mass.
+        // Take planet's rotation into account.
+        local relative_ground_speed is current_transerve - surface_ground_speed.
+        // If acceleration exceeds remaining velocity then we're done
+        set finished to acceleration > v(current_radial, relative_ground_speed, 0):mag.
 
-		// Apply acceleration due to gravity
-		local delta_radial_gravity is -mu / (current_distance ^ 2) + (current_transerve ^ 2) / current_distance.
-		local delta_transverse_gravity is -current_transerve * current_radial / current_distance.
+        // Apply acceleration due to gravity
+        local delta_radial_gravity is -mu / (current_distance ^ 2) + (current_transerve ^ 2) / current_distance.
+        local delta_transverse_gravity is -current_transerve * current_radial / current_distance.
 
-		local alpha is "undefined".
-		if strategy = "suicide_burn" {
-			// Craft angle follows surface retrograde
-			set alpha to arctan2(current_radial, relative_ground_speed).
-		}
-		if strategy = "constant_altitude_burn" {
-			// Craft angle attempts to keep radial velocity at zero.
-			set alpha to arcsin(delta_radial_gravity / acceleration).
-		}
-		
-		// Apply acceleration due to engine thrust
-		local delta_radial is delta_radial_gravity - acceleration * sin(alpha).
-		local delta_transverse is delta_transverse_gravity - acceleration * cos(alpha).
+        local alpha is "undefined".
+        if strategy = "suicide_burn" {
+            // Craft angle follows surface retrograde
+            set alpha to arctan2(current_radial, relative_ground_speed).
+        }
+        if strategy = "constant_altitude_burn" {
+            // Craft angle attempts to keep radial velocity at zero.
+            set alpha to arcsin(delta_radial_gravity / acceleration).
+        }
 
-		// Euler integration that seems to match what KSP does under the hood.
-		set current_mass to current_mass + delta_time * delta_mass.
-		set current_distance to current_distance + delta_time * current_radial.
-		set current_radial to current_radial + delta_time * delta_radial.
-		set current_transerve to current_transerve + delta_time * delta_transverse.
+        // Apply acceleration due to engine thrust
+        local delta_radial is delta_radial_gravity - acceleration * sin(alpha).
+        local delta_transverse is delta_transverse_gravity - acceleration * cos(alpha).
 
-		// Increment totals
-		set total_time to total_time + delta_time.
-		set total_deltav to total_deltav + delta_time * acceleration.
-	}
+        // Euler integration that seems to match what KSP does under the hood.
+        set current_mass to current_mass + delta_time * delta_mass.
+        set current_distance to current_distance + delta_time * current_radial.
+        set current_radial to current_radial + delta_time * delta_radial.
+        set current_transerve to current_transerve + delta_time * delta_transverse.
 
-	local offset is planet:radius - current_distance.
-	local final_twr is thrust / (current_mass * surface_gravity).
+        // Increment totals
+        set total_time to total_time + delta_time.
+        set total_deltav to total_deltav + delta_time * acceleration.
+    }
 
-	return lex("time", total_time, "deltav", total_deltav, "offset", offset, "final_twr", final_twr).
+    local offset is planet:radius - current_distance.
+    local final_twr is thrust / (current_mass * surface_gravity).
+
+    return lex("time", total_time, "deltav", total_deltav, "offset", offset, "final_twr", final_twr).
 }
 
 local function output {
-	parameter message.
+    parameter message.
 
-	print message.
-	log message to "output.txt".
+    print message.
+    log message to "output.txt".
 }
