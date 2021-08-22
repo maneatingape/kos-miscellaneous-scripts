@@ -23,19 +23,19 @@ local max_height is 0.
 local max_lng is 0.
 
 until lng > 180 {
-	local height is planet:geopositionlatlng(0, lng):terrainheight.
+    local height is planet:geopositionlatlng(0, lng):terrainheight.
 
-	if (height > max_height) {
-		set max_height to height.
-		set max_lng to lng.
-	}
+    if (height > max_height) {
+        set max_height to height.
+        set max_lng to lng.
+    }
 
-	if (round(lng) > progress) {
-		set progress to round(lng).
-		print progress.
-	}
+    if (round(lng) > progress) {
+        set progress to round(lng).
+        print progress.
+    }
 
-	set lng to lng + step.
+    set lng to lng + step.
 }
 
 print max_height. // 9074
